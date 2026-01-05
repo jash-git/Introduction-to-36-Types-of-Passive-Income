@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="utf-8">
+  <title>依序載入 PNG</title>
+</head>
+<body>
+  <div id="container"></div>
+
+  <script>
+    const container = document.getElementById("container");
+    let index = 1;
+    const max = 8;
+
+    function loadNext() {
+      if (index > max) return;
+
+      const img = new Image();
+      const num = String(index).padStart(2, "0");
+      img.src = `${num}.jpg`;
+
+      img.onload = () => {
+        container.appendChild(img);
+        index++;
+        loadNext(); // 下一張
+      };
+
+      img.onerror = () => {
+        console.error(`載入失敗：${img.src}`);
+        index++;
+        loadNext();
+      };
+    }
+
+    loadNext();
+  </script>
+</body>
+</html>
